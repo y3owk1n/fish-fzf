@@ -4,11 +4,17 @@
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/y3owk1n/fish-x/ci.yml)
 ![GitHub License](https://img.shields.io/github/license/y3owk1n/fish-fzf)
 
-Welcom to `fish-fzf`, an unopinionated fzf functions for your Fish shell. Bind FZF to your workflow with ease in Fish. This plugin provides just the functions so you can map them into however you want to use it.
+Welcome to `fish-fzf`, an unopinionated fzf functions for your Fish shell. Bind FZF to your workflow with ease in Fish. This plugin provides just the functions so you can map them into however you want to use it.
 
 - `_fzf_cmd_history` - Command history search with fzf.
 - `_fzf_directory_picker` - Directory picker with fzf.
 - `_fzf_file_picker` - File picker with fzf.
+
+> I don't like to have unused keymaps that comes with most plugins. That's why `fish-fzf` exists.
+
+## Roadmap
+
+- [ ] New function for live grep
 
 ## Installation
 
@@ -16,10 +22,10 @@ First, install a proper version of these CLI dependencies:
 
 | CLI       | Description                             |
 | --------  | --------------------------------------- |
-| [fish][https://fishshell.com/]  | a modern shell                          |
-| [fzf][https://github.com/junegunn/fzf]   | fuzzy finder that powers this plugin    |
-| [fd][https://github.com/sharkdp/fd]    | faster, colorized alternative to `find` |
-| [bat][https://github.com/sharkdp/bat]   | smarter `cat` with syntax highlighting  |
+| [fish](https://fishshell.com/)  | a modern shell                          |
+| [fzf](https://github.com/junegunn/fzf)   | fuzzy finder that powers this plugin    |
+| [fd](https://github.com/sharkdp/fd)    | faster, colorized alternative to `find` |
+| [bat](https://github.com/sharkdp/bat)   | smarter `cat` with syntax highlighting  |
 
 ### Using Nix's Home Manager (Recommended)
 
