@@ -10,11 +10,14 @@ Welcome to `fish-fzf`, an unopinionated fzf functions for your Fish shell. Bind 
 - `_fzf_directory_picker` - Directory picker with fzf.
 - `_fzf_file_picker` - File picker with fzf.
 
+./assets/demo.mov
+
 > I don't like to have unused keymaps that comes with most plugins. That's why `fish-fzf` exists.
 
 ## Roadmap
 
 - [ ] New function for live grep
+- [ ] Test suite
 
 ## Installation
 
@@ -76,6 +79,8 @@ source /path/to/_fzf_preview_name.fish
 
 ### 1. Command History Search
 
+![command history search](./assets/command-history.png)
+
 - Search and select commands from your command history using fzf.
 - Replace the current command line with the selected command.
 - Optionally, execute the selected command immediately.
@@ -90,6 +95,8 @@ _fzf_cmd_history [--allow-execute] [--prompt-name <custom_prompt>]
 - `--prompt-name` (optional) - Custom prompt to display in fzf.
 
 ### 2. Directory Picker
+
+![directory picker](./assets/directory-picker.png)
 
 - Navigate and select directories using fzf.
 - Optionally, change the current directory or replace the current token with the selected directory path.
@@ -107,6 +114,8 @@ _fzf_directory_picker [--allow-cd] [--recursive-depth <depth>] [--prompt-name <c
 - `path` (optional) - Directory path to start in. Defaults to '.'
 
 ### 3. File Picker
+
+![file picker](./assets/file-picker.png)
 
 - Browse and select files and directories using fzf.
 - By default, it respects .gitignore and you can turn `--show-hidden-files` for searching all files.
