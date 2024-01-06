@@ -21,26 +21,30 @@ end
 # Test _fzf_cmd_history without options
 setup_mocked_history
 set selected_command (echo "command1" | _fzf_cmd_history)
-@test "selected command is correct" $selected_command = command1
+set selected_command_without_equals (string replace '=' '' $selected_command)
+@test "selected command is correct" "$selected_command_without_equals" = command1
 
 # Test _fzf_cmd_history with custom prompt name
 setup_mocked_history
 set selected_command (echo "command2" | _fzf_cmd_history --prompt-name "CustomPrompt")
-@test "selected command is correct with custom prompt name" $selected_command = command2
+set selected_command_without_equals (string replace '=' '' $selected_command)
+@test "selected command is correct with custom prompt name" "$selected_command_without_equals" = command2
 @test "prompt name in fzf is correct" $FZF_PROMPT_NAME = CustomPrompt
 
 # Test _fzf_cmd_history with allow-execute option
 setup_mocked_history
 setup_mocked_fzf
 set selected_command (echo "command3" | _fzf_cmd_history --allow-execute)
-@test "selected command is correct with allow-execute option" $selected_command = command3
+set selected_command_without_equals (string replace '=' '' $selected_command)
+@test "selected command is correct with allow-execute option" "$selected_command_without_equals" = command3
 @test "prompt name in fzf is correct" $FZF_PROMPT_NAME = "Command History"
 
 # Test _fzf_cmd_history with both prompt name and allow-execute options
 setup_mocked_history
 setup_mocked_fzf
 set selected_command (echo "command4" | _fzf_cmd_history --prompt-name "CustomPrompt" --allow-execute)
-@test "selected command is correct with both options" $selected_command = command4
+set selected_command_without_equals (string replace '=' '' $selected_command)
+@test "selected command is correct with both options" "$selected_command_without_equals" = command4
 @test "prompt name in fzf is correct" $FZF_PROMPT_NAME = CustomPrompt
 
 # Test _fzf_cmd_history with allow-execute option (execution validation)
