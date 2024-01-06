@@ -18,11 +18,17 @@ function setup_mocked_fzf
     end
 end
 
+# Function to simulate commandline in non-interactive mode
+function set_current_token
+    set -gx COMMANDLINE_CURRENT_TOKEN $argv[1]
+end
+
 # Temporary directory to store output file
 set temp_dir (mktemp -d)
 set output_file $temp_dir/output.txt
 
 # Test _fzf_cmd_history without options
+set_current_token ""
 setup_mocked_history
 echo command1 | _fzf_cmd_history >$output_file
 
@@ -30,6 +36,7 @@ set selected_command_without_equals (string replace '=' '' (cat $output_file))
 @test "selected command is correct" "$selected_command_without_equals" = command1
 
 # Test _fzf_cmd_history with custom prompt name
+set_current_token ""
 setup_mocked_history
 setup_mocked_fzf
 echo command2 | _fzf_cmd_history --prompt-name CustomPrompt >$output_file
@@ -39,6 +46,7 @@ set selected_command_without_equals (string replace '=' '' (cat $output_file))
 @test "prompt name in fzf is correct" $FZF_PROMPT_NAME = CustomPrompt
 
 # Test _fzf_cmd_history with allow-execute option
+set_current_token ""
 setup_mocked_history
 setup_mocked_fzf
 echo command3 | _fzf_cmd_history --allow-execute >$output_file
@@ -48,6 +56,7 @@ set selected_command_without_equals (string replace '=' '' (cat $output_file))
 @test "prompt name in fzf is correct" $FZF_PROMPT_NAME = "Command History"
 
 # Test _fzf_cmd_history with both prompt name and allow-execute options
+set_current_token ""
 setup_mocked_history
 setup_mocked_fzf
 echo command4 | _fzf_cmd_history --prompt-name CustomPrompt --allow-execute >$output_file
@@ -57,6 +66,7 @@ set selected_command_without_equals (string replace '=' '' (cat $output_file))
 @test "prompt name in fzf is correct" $FZF_PROMPT_NAME = CustomPrompt
 
 # Test _fzf_cmd_history with allow-execute option (execution validation)
+set_current_token ""
 setup_mocked_history
 echo command5 | _fzf_cmd_history --allow-execute >$output_file
 eval (cat $output_file)
