@@ -10,7 +10,7 @@ Welcome to `fish-fzf`, an unopinionated fzf functions for your Fish shell. Bind 
 - `_fzf_directory_picker` - Directory picker with fzf.
 - `_fzf_file_picker` - File picker with fzf.
 
-<img src="./assets/demo.gif" alt="demo" width="100%"></img>
+https://github.com/y3owk1n/fish-fzf/assets/62775956/e1a6ad21-6789-4ade-990a-29be8871c83f
 
 > I don't like to have unused keymaps that comes with most plugins. That's why `fish-fzf` exists.
 
