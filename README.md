@@ -16,10 +16,10 @@ First, install a proper version of these CLI dependencies:
 
 | CLI       | Description                             |
 | --------  | --------------------------------------- |
-| [fish][]  | a modern shell                          |
-| [fzf][]   | fuzzy finder that powers this plugin    |
-| [fd][]    | faster, colorized alternative to `find` |
-| [bat][]   | smarter `cat` with syntax highlighting  |
+| [fish][https://fishshell.com/]  | a modern shell                          |
+| [fzf][https://github.com/junegunn/fzf]   | fuzzy finder that powers this plugin    |
+| [fd][https://github.com/sharkdp/fd]    | faster, colorized alternative to `find` |
+| [bat][https://github.com/sharkdp/bat]   | smarter `cat` with syntax highlighting  |
 
 ### Using Nix's Home Manager (Recommended)
 
@@ -70,39 +70,61 @@ source /path/to/_fzf_preview_name.fish
 
 ### 1. Command History Search
 
-#### Usage
-
-```fish
-_fzf_cmd_history [--prompt-name <custom_prompt>] [--allow-execute]
-```
-
 - Search and select commands from your command history using fzf.
 - Replace the current command line with the selected command.
 - Optionally, execute the selected command immediately.
 
-### 2. Directory Picker
-
 #### Usage
 
 ```fish
-_fzf_directory_picker [--recursive-depth <depth>] [--prompt-name <custom_prompt>] [--allow-cd] [path]
+_fzf_cmd_history [--allow-execute] [--prompt-name <custom_prompt>]
 ```
+
+- `--allow-execute` (optional) - Execute the selected command immediately on select.
+- `--prompt-name` (optional) - Custom prompt to display in fzf.
+
+### 2. Directory Picker
 
 - Navigate and select directories using fzf.
 - Optionally, change the current directory or replace the current token with the selected directory path.
 - Supports recursive depth and custom prompts.
 
+#### Usage
+
+```fish
+_fzf_directory_picker [--allow-cd] [--recursive-depth <depth>] [--prompt-name <custom_prompt>]  [path]
+```
+
+- `--allow-cd` (optional) - Change the current directory using the selected directory path.
+- `--recursive-depth` (optional) - Depth to recursively search for directories. Defaults to 1.
+- `--prompt-name` (optional) - Custom prompt to display in fzf.
+- `path` (optional) - Directory path to start in. Defaults to '.'
+
 ### 3. File Picker
+
+- Browse and select files and directories using fzf.
+- By default, it respects .gitignore and you can turn `--show-hidden-files` for searching all files.
+- Optionally, open the selected file in your preferred editor or replace the current token with the selected file path.
+- Supports showing hidden files, custom prompts, and opening in the editor.
 
 #### Usage
 
 ```fish
-_fzf_file_picker [--show-hidden-files] [--prompt-name <custom_prompt>] [--allow-open-in-editor] [path]
+_fzf_file_picker [--allow-open-in-editor]  [--show-hidden-files] [--prompt-name <custom_prompt>] [path]
 ```
 
-- Browse and select files and directories using fzf.
-- Optionally, open the selected file in your preferred editor or replace the current token with the selected file path.
-- Supports showing hidden files, custom prompts, and opening in the editor.
+- `--allow-open-in-editor` (optional) - Open the selected file in your preferred editor.
+- `--show-hidden-files` (optional) - Show hidden files.
+- `--prompt-name` (optional) - Custom prompt to display in fzf.
+- `path` (optional) - File path to start in. Defaults to '.'
+
+##### Notes
+
+Before using `--allow-open-in-editor`, ensure that your preferred editor is set in the **$EDITOR** environment variable. You can set it using:
+
+```fish
+set -Ux EDITOR nvim # vim, code, emacs, etc.
+```
 
 ## Customization
 
@@ -115,19 +137,56 @@ Add these functions to your Fish configuration file to tailor them to your prefe
 #### Command History
 
 ```fish
-_fzf_cmd_history --prompt-name "Custom Prompt" --allow-execute
+_fzf_cmd_history --allow-execute --prompt-name "Custom Prompt" 
 ```
 
 #### Directory Picker
 
 ```fish
-_fzf_directory_picker --recursive-depth 2 --prompt-name "Choose Directory" --allow-cd /path/to/start
+_fzf_directory_picker --allow-cd --recursive-depth 2 --prompt-name "Choose Directory" /path/to/start
 ```
 
 #### File Picker
 
 ```fish
-_fzf_file_picker --show-hidden-files --prompt-name "Select File" --allow-open-in-editor /path/to/start
+_fzf_file_picker --allow-open-in-editor --show-hidden-files --prompt-name "Select File" /path/to/start
+```
+
+> Remember, these are just functions in fish shell. You can do whatever you want with them.
+
+#### Make an alias / abbr and execute them on the fly
+
+##### Abbr (I'm using this method)
+
+```fish
+# ~/.config/fish/config.fish
+
+abbr --add --global -- fpc '_fzf_cmd_history --allow-execute' # Open up command history picker and allow execute on select.
+abbr --add --global -- fpf '_fzf_file_picker --allow-open-in-editor --prompt-name Files' # Open up file picker in current directory, change the prompt name to 'Files' and open in editor on select.
+abbr --add --global -- fpfh '_fzf_file_picker --allow-open-in-editor --show-hidden-files --prompt-name Files+' # Same as above but show hidden files.
+abbr --add --global -- fpp '_fzf_directory_picker --allow-cd --prompt-name Projects ~/Dev/' # Open up directory picker in ~/Dev/ with default 1 level of recursive-depth and auto cd on select.
+```
+
+##### Alias
+
+```fish
+# ~/.config/fish/config.fish
+
+alias fpc '_fzf_cmd_history --allow-execute'
+alias fpf '_fzf_file_picker --allow-open-in-editor --prompt-name Files'
+alias fpfh '_fzf_file_picker --allow-open-in-editor --show-hidden-files --prompt-name Files+'
+alias fpp '_fzf_directory_picker --allow-cd --prompt-name Projects ~/Dev/'
+````
+
+#### Bind it with fish key bindings
+
+```fish
+# ~/.config/fish/functions/fish_user_key_bindings.fish
+
+function fish_user_key_bindings
+    bind \cg '_fzf_cmd_history --allow-execute'
+    bind -M insert \cg `_fzf_cmd_history --allow-execute`
+end
 ```
 
 ## Troubleshooting
