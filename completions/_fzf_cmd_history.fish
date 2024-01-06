@@ -1,14 +1,14 @@
-function _fzf_cmd_history_completion
-    set -l cmd_history_options '--prompt-name --allow-execute'
+complete _fzf_cmd_history -n __fish_use_subcommand -l prompt-name -d 'Custom prompt name'
+complete _fzf_cmd_history -n __fish_use_subcommand -l allow-execute -d 'Allow execution of selected command'
 
-    for opt in $cmd_history_options
-        if string match -q -r -- "$opt*" (commandline --current-token)
-            return
-        end
+function _fzf_cmd_history_command_complete
+    set -l options
+
+    for option in (history)
+        set options $options $option
     end
 
-    # If none of the options matched, suggest all options
-    echo $cmd_history_options
+    echo $options
 end
 
-complete -c _fzf_cmd_history -f -n _fzf_cmd_history_completion -d 'fzf command history'
+complete -c _fzf_cmd_history --arguments '(_fzf_cmd_history_command_complete)' -d 'Command to search in history'
