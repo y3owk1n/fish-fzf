@@ -29,7 +29,7 @@ function _fzf_directory_picker --description="fzf directory picker"
 
     set -l selected_directory
 
-    set selected_directory (fd . $path --min-depth 1 --type d --max-depth "$recursive_depth"  | fzf --prompt=(_fzf_preview_name $prompt_name))
+    set selected_directory (fd . $path --min-depth 1 --type d --max-depth "$recursive_depth"  | fzf --prompt=(_fzf_preview_name $prompt_name) --layout=reverse --border --height=~100% --tmux=center)
 
     if test -n "$selected_directory"
         if test -n "$allow_cd"
