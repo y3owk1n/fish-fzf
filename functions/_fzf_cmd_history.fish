@@ -13,7 +13,7 @@ function _fzf_cmd_history --description="fzf command history"
         end
     end
 
-    set -l selected_command (history | fzf --prompt=(_fzf_preview_name $prompt_name) --layout=reverse --border --height=~100% --tmux=center)
+    set -l selected_command (history | fzf --prompt=(_fzf_preview_name $prompt_name) --no-color)
 
     if test -n "$selected_command"
         # commandline --current-token --replace -- (string escape -- $selected_command)

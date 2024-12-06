@@ -27,9 +27,9 @@ function _fzf_file_picker --description="fzf file picker"
     set -l selected_path
 
     if $show_hidden_files
-        set selected_path (fd . $path --type f --hidden | fzf --preview="_fzf_preview_cmd {}" --prompt=(_fzf_preview_name $prompt_name) --layout=reverse --border --height=~100% --tmux=center)
+        set selected_path (fd . $path --type f --type d --hidden | fzf --preview="_fzf_preview_cmd {}" --prompt=(_fzf_preview_name $prompt_name))
     else
-        set selected_path (fd . $path --type f --exclude .git --exclude .gitignore 2>/dev/null | sed 's|^\$path/||' | fzf --preview="_fzf_preview_cmd {}" --prompt=(_fzf_preview_name $prompt_name) --layout reverse --border --height ~100% --tmux center)
+        set selected_path (fd . $path --type f --type d --exclude .git --exclude .gitignore 2>/dev/null | sed 's|^\$path/||' | fzf --preview="_fzf_preview_cmd {}" --prompt=(_fzf_preview_name $prompt_name))
     end
 
     if test -n "$selected_path"
